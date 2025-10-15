@@ -1,5 +1,6 @@
 import CursorGlow from "@/effects/glowCursorEffect";
 import Calendar from "@/components/calendar";
+import { daysInMonth } from "@/config/monthDays";
 
 export default function Home() {
   return (
