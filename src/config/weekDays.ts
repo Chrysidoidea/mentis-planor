@@ -1,0 +1,1 @@
+export const daysInWeek: Array<string> = ["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
