@@ -17,7 +17,7 @@ export default function CursorGlow() {
       setPos(prev => {
         const dx = target.current.x - prev.x;
         const dy = target.current.y - prev.y;
-        const speed = 0.15; // lower = slower / smoother
+        const speed = 0.15;
         const newX = prev.x + dx * speed;
         const newY = prev.y + dy * speed;
         return { x: newX, y: newY };
@@ -36,7 +36,7 @@ export default function CursorGlow() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-50 mix-blend-screen"
+      className="pointer-events-none fixed inset-0 z-10 mix-blend-screen"
       style={{
         background: `radial-gradient(200px at ${pos.x}px ${pos.y}px, rgba(0, 200, 255, 0.25), transparent 80%)`,
         filter: "blur(40px)",
