@@ -1,8 +1,11 @@
-
+"use client"
 
 import Calendar from "@/components/calendar";
 import CursorGlow from "@/effects/glowCursorEffect";
 import { dayCalculator } from "@/config/weekDays";
+import { Authenticator } from "@/components/auth";
+import { useAuth } from "@/firebase/useAuth";
+
 
 export default function Home() {
   const currentMonth = new Date().getMonth();
@@ -21,7 +24,10 @@ export default function Home() {
 
       <div className="grid content-center text-white z-20 rounded-xs text-center">
         <CursorGlow></CursorGlow>
-        <Calendar month={currentMonth} year={currentYear} />{" "}
+        {useAuth().user ? 
+        <Calendar month={currentMonth} year={currentYear} />:
+        <Authenticator/>}
+        
       </div>
     </div>
   );

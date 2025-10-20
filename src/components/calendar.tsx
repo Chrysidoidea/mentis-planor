@@ -5,20 +5,17 @@ import { daysInWeek } from "@/config/weekDays";
 import { daysInMonth } from "@/config/monthDays";
 import { db } from "@/firebase/config";
 import { useAuth } from "@/firebase/useAuth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 interface CalendarEvent {
   start: string;
   end: string;
 }
 
-const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) => {
+const Calendar: React.FC<{ month: number; year: number }> = ({
+  month,
+  year,
+}) => {
   const { user } = useAuth();
   const totalDays = daysInMonth(String(month), String(year));
   const daysArray = Array.from({ length: totalDays }, (_, i) => i + 1);
@@ -32,33 +29,51 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
   useEffect(() => {
     if (!user) return;
 
-    const ref = doc(db, "calendar_events", user.uid);
+    const ref = doc(
+      db,
+      "calendar_events",
+      user.uid,
+      `${year}_${month}`,
+      "data"
+    );
 
-    // Realtime sync with Firestore
     const unsubscribe = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
-        const firestoreData = snap.data() as { days?: Record<number, CalendarEvent> };
+        const firestoreData = snap.data() as {
+          days?: Record<number, CalendarEvent>;
+        };
         setData(firestoreData.days || {});
       }
     });
 
     return unsubscribe;
-  }, [user]);
-
+  }, [user, month, year]);
   // Save updated day data to Firestore
   const handleSaveDay = async (day: number, start: string, end: string) => {
     if (!user) return;
-    const ref = doc(db, "calendar_events", user.uid);
-    const uid = user.uid;
+
+    const ref = doc(
+      db,
+      "calendar_events",
+      user.uid,
+      `${year}_${month}`,
+      "data"
+    );
     const updated = { ...data, [day]: { start, end } };
     setData(updated);
 
     try {
       const docSnap = await getDoc(ref);
       if (docSnap.exists()) {
-        await updateDoc(ref, { days: updated });
+        await updateDoc(ref, {
+          days: updated,
+          updatedAt: new Date(),
+        });
       } else {
-        await setDoc(ref, { days: updated });
+        await setDoc(ref, {
+          days: updated,
+          updatedAt: new Date(),
+        });
       }
     } catch (err) {
       console.error("Error saving calendar data:", err);
@@ -92,7 +107,10 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
       {/* Week Header */}
       <section className="grid grid-cols-7">
         {daysInWeek.map((week, i) => (
-          <div key={i} className="w-full h-5 text-center relative font-semibold">
+          <div
+            key={i}
+            className="w-full h-5 text-center relative font-semibold"
+          >
             {week}
           </div>
         ))}
