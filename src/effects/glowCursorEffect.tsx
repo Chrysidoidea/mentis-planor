@@ -38,7 +38,7 @@ export default function CursorGlow() {
     <div
       className="pointer-events-none fixed inset-0 z-0 mix-blend-screen"
       style={{
-        background: `radial-gradient(200px at ${pos.x}px ${pos.y}px, rgba(255, 255, 255, 0.85), transparent 80%)`,
+        background: `radial-gradient(100px at ${pos.x}px ${pos.y}px, rgba(255, 255, 255, 0.99), transparent 99%)`,
         filter: "blur(40px)",
       }}
     />
