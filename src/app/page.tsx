@@ -38,7 +38,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-lvh w-full bg-gradient-to-t z-40 from-cyan-950 to-cyan-800 p-1">
+    <div className="min-h-lvh w-full bg-gradient-to-t z-40 from-black to-gray-800 p-1">
       <h1 className="text-center text-amber-400 z-50 p-2 font-bold text-4xl m-5">
         Mentis Planor
       </h1>

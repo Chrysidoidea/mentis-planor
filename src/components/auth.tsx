@@ -26,17 +26,11 @@ export const Authenticator = () => {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-    } catch (err: any) {
-      if (err.code === "auth/email-already-in-use") {
-        setError("This email is already in use.");
-      } else if (err.code === "auth/invalid-email") {
-        setError("Invalid email format.");
-      } else if (err.code === "auth/wrong-password") {
-        setError("Incorrect password.");
-      } else if (err.code === "auth/user-not-found") {
-        setError("No user found with this email.");
-      } else {
-        setError("Authentication failed. Please try again.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+      if (err instanceof Error) {
+        console.log(err.message);
       }
     } finally {
       setLoading(false);
