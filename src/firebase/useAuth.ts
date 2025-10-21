@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  User as FirebaseUser,
+} from "firebase/auth";
 import { auth } from "@/firebase/config";
 
+export type AuthUser = FirebaseUser | null;
+
 export function useAuth() {
-  const [user, setUser] = useState<unknown>(null);
+  const [user, setUser] = useState<AuthUser>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
+    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u as FirebaseUser | null));
     return unsubscribe;
   }, []);
 
@@ -18,4 +26,5 @@ export function useAuth() {
 
   const logout = () => signOut(auth);
 
-  return { user, login, register, logout }}
+  return { user, login, register, logout };
+}
