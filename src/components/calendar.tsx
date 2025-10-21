@@ -5,6 +5,7 @@ import { daysInWeek } from "@/config/weekDays";
 import { daysInMonth } from "@/config/monthHelper";
 import { db } from "@/firebase/config";
 import { useAuth } from "@/firebase/useAuth";
+import type { AuthUser } from "@/firebase/useAuth";
 import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 interface TimeBlock {
@@ -14,7 +15,6 @@ interface TimeBlock {
   minutes: number;
   description: string;
 }
-
 interface CalendarEvent {
   sessions: TimeBlock[];
 }
@@ -23,7 +23,8 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   month,
   year,
 }) => {
-  const { user } = useAuth();
+  // Cast the hook return so TypeScript knows `user` is a Firebase User or null
+  const { user } = useAuth() as { user: AuthUser | null };
   const totalDays = daysInMonth(String(month), String(year));
   const daysArray = Array.from({ length: totalDays }, (_, i) => i + 1);
 
@@ -32,32 +33,39 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   const [isOpening, setIsOpening] = useState(false);
   const [data, setData] = useState<Record<number, CalendarEvent>>({});
 
-useEffect(() => {
-  if (!user) return;
+  useEffect(() => {
+    if (!user) return;
 
-  setData({});
+    setData({});
 
-  const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
+    const ref = doc(
+      db,
+      "calendar_events",
+      user.uid,
+      `${year}_${month}`,
+      "data"
+    );
 
-  const unsubscribe = onSnapshot(ref, (snap) => {
-    if (snap.exists()) {
-      const firestoreData = snap.data() as {
-        days?: Record<number, CalendarEvent>;
-      };
-      setData(firestoreData.days || {});
-    } else {
-      setData({});
-    }
-  });
+    const unsubscribe = onSnapshot(ref, (snap) => {
+      if (snap.exists()) {
+        const firestoreData = snap.data() as {
+          days?: Record<number, CalendarEvent>;
+        };
+        setData(firestoreData.days || {});
+      } else {
+        setData({});
+      }
+    });
 
-  return () => {
-    unsubscribe();
-  };
-}, [user, month, year]);
+    return () => {
+      unsubscribe();
+    };
+  }, [user, month, year]);
 
   // --- Save to Firestore ---
   const handleSaveDay = async (day: number, sessions: TimeBlock[]) => {
     if (!user) return;
+
     const ref = doc(
       db,
       "calendar_events",
@@ -113,7 +121,8 @@ useEffect(() => {
       return "bg-green-900/50 border-green-500 shadow-green-800/40  w-full h-20";
     if (hours >= 1)
       return "bg-orange-900/50 border-orange-500 shadow-orange-800/40  w-full h-20";
-    if (hours > 0) return "bg-red-900/50 border-red-500 shadow-red-800/40  w-full h-20";
+    if (hours > 0)
+      return "bg-red-900/50 border-red-500 shadow-red-800/40  w-full h-20";
     return "bg-cyan-950 opacity-85 border-gray-500 w-full h-20";
   };
   return (
