@@ -1,8 +1,7 @@
 "use client";
 
-import Calendar from "@/components/calendar";
+import Calendar from "@/components/calendar/calendar";
 import CursorGlow from "@/effects/glowCursorEffect";
-// import { dayCalculator } from "@/config/weekDays";
 import { monthNames } from "@/config/monthHelper";
 import { Authenticator } from "@/components/auth";
 import { useAuth } from "@/firebase/useAuth";

@@ -7,17 +7,8 @@ import { db } from "@/firebase/config";
 import { useAuth } from "@/firebase/useAuth";
 import type { AuthUser } from "@/firebase/useAuth";
 import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import type { TimeBlock, CalendarEvent } from "./types/types";
 
-interface TimeBlock {
-  start: string;
-  end: string;
-  total: string;
-  minutes: number;
-  description: string;
-}
-interface CalendarEvent {
-  sessions: TimeBlock[];
-}
 
 const Calendar: React.FC<{ month: number; year: number }> = ({
   month,
