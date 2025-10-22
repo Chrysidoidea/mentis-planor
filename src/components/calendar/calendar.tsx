@@ -139,14 +139,14 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
               <span className="font-semibold">{dayNum}</span>
               {totalMinutes > 0 && (
                 <>
-                  <span className="text-cyan-300 text-xs">{exactLabel}</span>
-                  <span className="text-cyan-300 text-xs">
+                  <span className="text-gray-300 text-xs">{exactLabel}</span>
+                  <span className="text-gray-300 text-xs">
                     {Math.round(totalMinutes)} m total
                   </span>
                 </>
               )}
               {data[dayNum]?.sessions && (
-                <span className="text-cyan-400 text-[10px]">
+                <span className="text-gray-400 text-[10px]">
                   {data[dayNum].sessions.length} entr
                   {data[dayNum].sessions.length === 1 ? "y" : "ies"}
                 </span>
