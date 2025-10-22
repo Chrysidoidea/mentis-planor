@@ -48,12 +48,14 @@ export default function Home() {
       >
         Mentis Planor
       </h1>
-      <button
-        onClick={handleLogout}
-        className="text-xs cursor-pointer text-gray-400 mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
-      >
-        Log out
-      </button>
+      {user ? (
+        <button
+          onClick={handleLogout}
+          className="text-xs cursor-pointer text-gray-400 mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
+        >
+          Log out
+        </button>
+      ) : null}
       {user && (
         <section className="text-amber-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
           <button
