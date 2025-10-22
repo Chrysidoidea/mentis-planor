@@ -105,13 +105,30 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     return sessions.reduce((sum, s) => sum + (s.minutes || 0), 0);
   };
 
+  const formatMinutesExact = (totalMinutes: number) => {
+    if (!totalMinutes && totalMinutes !== 0) return "--";
+    const totalSeconds = Math.round(totalMinutes * 60);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const mm = minutes.toString().padStart(2, "0");
+    const ss = seconds.toString().padStart(2, "0");
+
+    if (hours > 0) {
+      return seconds === 0 ? `${hours}:${mm} h total` : `${hours}:${mm}:${ss} h total`;
+    } else {
+      return seconds === 0 ? `${minutes} m` : `${minutes}:${ss} m`;
+    }
+  };
+
   return (
     <>
       <CalendarHeader />
       <section className="grid grid-cols-7 gap-2 p-4 w-full relative">
         {daysArray.map((day) => {
-          const totalMinutes = getTotalMinutes(day);
-          const totalHours = (totalMinutes / 60).toFixed(1);
+          const totalMinutes = getTotalMinutes(day); // may be fractional
+          const exactLabel = formatMinutesExact(totalMinutes);
           const colorClass = getColorClass(totalMinutes);
 
           return (
@@ -124,9 +141,9 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
               {totalMinutes > 0 && (
                 <>
                   <span className="text-cyan-300 text-xs">
-                    {totalHours} h total
+                    {exactLabel}
                   </span>
-                  <span className="text-cyan-300 text-xs">{totalMinutes} m total</span>
+                  <span className="text-cyan-300 text-xs">{Math.round(totalMinutes)} m total</span>
                 </>
               )}
               {data[day]?.sessions && (
