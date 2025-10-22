@@ -10,8 +10,6 @@ import type { TimeBlock, CalendarEvent } from "./types/types";
 import { Modal } from "./modal";
 import { getColorClass } from "./helpers";
 import { CalendarHeader } from "./header";
-import {signOut} from "firebase/auth";
-import { auth } from "@/firebase/config";
 
 const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) => {
   const { user } = useAuth() as { user: AuthUser | null };
@@ -113,10 +111,6 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
     } else {
       return seconds === 0 ? `${minutes} m` : `${minutes}:${ss} m`;
     }
-  };
-
-    const handleLogout = async () => {
-    await signOut(auth);
   };
 
   // === render ===
