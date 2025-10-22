@@ -41,10 +41,9 @@ export default function Home() {
   };
 
   return (
-    <div className=" flex flex-col in-h-lvh w-full bg-gradient-to-t z-40 from-black to-gray-800 p-1">
+    <div className=" flex flex-col in-h-lvh w-full bg-transparent p-1">
       <h1
-        className="text-center z-50 p-2 m-5 text-4xl font-bold text-pink-300 
-  [text-shadow:0_0_1px_#ff00ff,0_0_2px_#ff00ff,0_0_1px_#ff00ff,0_0_4px_#ff00ff]"
+        className="text-center z-50 p-2 m-5 text-4xl font-bold text-gray-300"
       >
         Mentis Planor
       </h1>
@@ -57,7 +56,7 @@ export default function Home() {
         </button>
       ) : null}
       {user && (
-        <section className="text-amber-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
+        <section className="text-gray-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
           <button
             onClick={handlePrevMonth}
             className="text-white hover:text-gray-400 transition text-2xl cursor-pointer"
@@ -66,8 +65,7 @@ export default function Home() {
           </button>
 
           <span
-            className="text-2xl font-bold text-pink-300 
-  [text-shadow:0_0_1px_#ff00ff,0_0_2px_#ff00ff,0_0_1px_#ff00ff,0_0_4px_#ff00ff]"
+            className="text-2xl font-bold text-gray-300"
           >
             {monthNames[month]} {year}
           </span>

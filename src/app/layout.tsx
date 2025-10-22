@@ -13,9 +13,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased bg-black`}>
-        {children}
-      </body>
+      <div
+        className="fixed inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/background.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+        <main className="relative z-10">
+          <body className={`antialiased bg-transparent`}>{children}</body>
+        </main>
+      </div>
     </html>
   );
 }

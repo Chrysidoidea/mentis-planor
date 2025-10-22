@@ -102,8 +102,7 @@ export const Modal = ({
     >
       {/* === header (shows selected day) === */}
       <span
-        className="text-4xl font-bold text-pink-300 
-  [text-shadow:0_0_1px_#ff00ff,0_0_2px_#ff00ff,0_0_1px_#ff00ff,0_0_4px_#ff00ff]"
+        className="text-4xl font-bold text-gray-300 mb-6"
       >
         {weekdayName} {day}
       </span>
@@ -146,7 +145,7 @@ export const Modal = ({
             placeholder="Description..."
             value={s.description}
             onChange={(e) => updateSession(i, "description", e.target.value)}
-            className="bg-gray-900/10 rounded-md px-2 py-1 text-pink-200 resize-none w-full h-8 focus:outline-none focus:ring-0 border-none"
+            className="bg-gray-900/10 rounded-md px-2 py-1 text-gray-200 resize-none w-full h-8 focus:outline-none focus:ring-0 border-none"
           />
         </div>
       ))}
