@@ -1,5 +1,5 @@
 # Mentis Planor
-[[link text](https://mentis-planor.vercel.app)](https://mentis-planor.vercel.app)
+[(https://mentis-planor.vercel.app)](https://mentis-planor.vercel.app)
 
 **Mentis Planor** is a personal time-tracking and planning calendar built with **Next.js**, **TypeScript**, and **Firebase**.  
 It allows users to record how they spend time each day, track multiple time blocks per date, and visualize productivity over months with smooth UI transitions and persistent data synchronization.
