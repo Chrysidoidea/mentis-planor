@@ -42,8 +42,8 @@ export default function Home() {
   [text-shadow:0_0_1px_#ff00ff,0_0_2px_#ff00ff,0_0_1px_#ff00ff,0_0_4px_#ff00ff]">
         Mentis Planor
       </h1>
-
-      <section className="text-amber-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
+      {user && (
+              <section className="text-amber-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
         <button
           onClick={handlePrevMonth}
           className="text-white hover:text-gray-400 transition text-2xl cursor-pointer"
@@ -63,7 +63,7 @@ export default function Home() {
           Next →
         </button>
       </section>
-
+      )}
       <div className="grid content-center text-white z-20 rounded-xs text-center">
         <CursorGlow />
         {user ? (

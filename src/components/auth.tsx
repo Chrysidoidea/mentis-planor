@@ -6,7 +6,6 @@ import { auth } from "@/firebase/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
 } from "firebase/auth";
 
 export const Authenticator = () => {
@@ -37,13 +36,11 @@ export const Authenticator = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
+
 
   return (
-    <section className="grid place-content-center min-h-screen text-cyan-100">
-      <div className="flex flex-col gap-2 p-6 bg-black/40 backdrop-blur-md border border-cyan-700 rounded-xl w-[260px]">
+    <section className="grid place-content-center min-h-screen text-gray-200">
+      <div className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]">
         <h2 className="text-center font-bold text-xl mb-2">
           {isLogin ? "Login" : "Register"}
         </h2>
@@ -61,14 +58,14 @@ export const Authenticator = () => {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-cyan-200 rounded-md w-full px-2 py-1 text-black"
+          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="bg-cyan-200 rounded-md w-full px-2 py-1 text-black"
+          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
         />
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
@@ -76,26 +73,20 @@ export const Authenticator = () => {
         <button
           onClick={handleAuth}
           disabled={loading}
-          className="mt-2 py-1 bg-cyan-700 hover:bg-cyan-600 rounded-md text-white disabled:opacity-50"
+          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50" transition-all duration-200 ease-in-out
         >
           {loading ? "Processing..." : isLogin ? "Login" : "Register"}
         </button>
 
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="text-xs text-cyan-300 mt-2 hover:underline"
+          className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200 "
         >
           {isLogin
             ? "Need an account? Register"
             : "Already have an account? Login"}
         </button>
 
-        <button
-          onClick={handleLogout}
-          className="text-xs text-gray-400 mt-3 hover:text-red-400"
-        >
-          Log out
-        </button>
       </div>
     </section>
   );
