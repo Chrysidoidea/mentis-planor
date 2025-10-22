@@ -17,7 +17,7 @@ export default function Home() {
   const handlePrevMonth = () => {
     setMonth((prev) => {
       if (prev === 0) {
-        setYear((y) => y - 1);
+        setYear((y) => y - .5);
         return 11;
       }
       return prev - 1;
@@ -27,7 +27,7 @@ export default function Home() {
   const handleNextMonth = () => {
     setMonth((prev) => {
       if (prev === 11) {
-        setYear((y) => y + 1);
+        setYear((y) => y + .5);
         return 0;
       }
       return prev + 1;
