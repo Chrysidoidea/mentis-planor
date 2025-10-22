@@ -1,68 +1,55 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { daysInMonth } from "@/config/monthHelper";
 import { db } from "@/firebase/config";
 import { useAuth } from "@/firebase/useAuth";
-import type { AuthUser } from "@/firebase/useAuth";
 import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { startOfMonth, endOfMonth, getDay, eachDayOfInterval, format } from "date-fns";
+import type { AuthUser } from "@/firebase/useAuth";
 import type { TimeBlock, CalendarEvent } from "./types/types";
 import { Modal } from "./modal";
 import { getColorClass } from "./helpers";
 import { CalendarHeader } from "./header";
 
-const Calendar: React.FC<{ month: number; year: number }> = ({
-  month,
-  year,
-}) => {
+const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) => {
   const { user } = useAuth() as { user: AuthUser | null };
-  const totalDays = daysInMonth(String(month), String(year));
-  const daysArray = Array.from({ length: totalDays }, (_, i) => i + 1);
-
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [data, setData] = useState<Record<number, CalendarEvent>>({});
 
+  // === compute first day offset (Monday-based) ===
+  const firstDay = startOfMonth(new Date(year, month));
+  const dayOfWeek = getDay(firstDay);
+  const startIndex = (dayOfWeek + 6) % 7;
+
+  // === make day list ===
+  const lastDay = endOfMonth(firstDay);
+  const allDays = eachDayOfInterval({ start: firstDay, end: lastDay });
+
+  // === load data ===
   useEffect(() => {
     if (!user) return;
-
     setData({});
 
-    const ref = doc(
-      db,
-      "calendar_events",
-      user.uid,
-      `${year}_${month}`,
-      "data"
-    );
-
-    const unsubscribe = onSnapshot(ref, (snap) => {
+    const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
+    const unsub = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
-        const firestoreData = snap.data() as {
-          days?: Record<number, CalendarEvent>;
-        };
+        const firestoreData = snap.data() as { days?: Record<number, CalendarEvent> };
         setData(firestoreData.days || {});
       } else {
         setData({});
       }
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsub();
   }, [user, month, year]);
 
+  // === save day ===
   const handleSaveDay = async (day: number, sessions: TimeBlock[]) => {
     if (!user) return;
 
-    const ref = doc(
-      db,
-      "calendar_events",
-      user.uid,
-      `${year}_${month}`,
-      "data"
-    );
+    const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
     const updated = { ...data, [day]: { sessions } };
     setData(updated);
 
@@ -85,6 +72,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     }, 300);
   };
 
+  // === click handler ===
   const dayClickHandler = (day: number) => {
     if (selectedDay === day) {
       setIsClosing(true);
@@ -99,6 +87,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     }
   };
 
+  // === helpers ===
   const getTotalMinutes = (day: number) => {
     const sessions = data[day]?.sessions;
     if (!sessions) return 0;
@@ -106,7 +95,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   };
 
   const formatMinutesExact = (totalMinutes: number) => {
-    if (!totalMinutes && totalMinutes !== 0) return "--";
+    if (totalMinutes == null) return "--";
     const totalSeconds = Math.round(totalMinutes * 60);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -116,45 +105,56 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     const ss = seconds.toString().padStart(2, "0");
 
     if (hours > 0) {
-      return seconds === 0 ? `${hours}:${mm} h total` : `${hours}:${mm}:${ss} h total`;
+      return seconds === 0
+        ? `${hours}:${mm} h total`
+        : `${hours}:${mm}:${ss} h total`;
     } else {
       return seconds === 0 ? `${minutes} m` : `${minutes}:${ss} m`;
     }
   };
 
+  // === render ===
   return (
     <>
       <CalendarHeader />
       <section className="grid grid-cols-7 gap-2 p-4 w-full relative">
-        {daysArray.map((day) => {
-          const totalMinutes = getTotalMinutes(day); // may be fractional
+        {/* Empty cells before first day */}
+        {Array.from({ length: startIndex }).map((_, i) => (
+          <div key={`empty-${i}`} className="opacity-0 pointer-events-none" />
+        ))}
+
+        {/* Days */}
+        {allDays.map((date) => {
+          const dayNum = Number(format(date, "d"));
+          const totalMinutes = getTotalMinutes(dayNum);
           const exactLabel = formatMinutesExact(totalMinutes);
           const colorClass = getColorClass(totalMinutes);
 
           return (
             <div
-              key={day}
-              onClick={() => dayClickHandler(day)}
+              key={dayNum}
+              onClick={() => dayClickHandler(dayNum)}
               className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass}`}
             >
-              <span className="font-semibold">{day}</span>
+              <span className="font-semibold">{dayNum}</span>
               {totalMinutes > 0 && (
                 <>
+                  <span className="text-cyan-300 text-xs">{exactLabel}</span>
                   <span className="text-cyan-300 text-xs">
-                    {exactLabel}
+                    {Math.round(totalMinutes)} m total
                   </span>
-                  <span className="text-cyan-300 text-xs">{Math.round(totalMinutes)} m total</span>
                 </>
               )}
-              {data[day]?.sessions && (
+              {data[dayNum]?.sessions && (
                 <span className="text-cyan-400 text-[10px]">
-                  {data[day].sessions.length} entr
-                  {data[day].sessions.length === 1 ? "y" : "ies"}
+                  {data[dayNum].sessions.length} entr
+                  {data[dayNum].sessions.length === 1 ? "y" : "ies"}
                 </span>
               )}
             </div>
           );
         })}
+
         {selectedDay && (
           <Modal
             day={selectedDay}
