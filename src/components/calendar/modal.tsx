@@ -98,7 +98,7 @@ export const Modal = ({
           ? "opacity-100 scale-100"
           : "opacity-0 scale-90"
       }
-      w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-blur-3xl border border-gray-700 rounded-2xl z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-700/40`}
+      w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
     >
       {/* === header (shows selected day) === */}
       <span
