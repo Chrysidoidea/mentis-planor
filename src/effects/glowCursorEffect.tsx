@@ -17,7 +17,7 @@ export default function CursorGlow() {
       setPos(prev => {
         const dx = target.current.x - prev.x;
         const dy = target.current.y - prev.y;
-        const speed = 0.15;
+        const speed = 0.9;
         const newX = prev.x + dx * speed;
         const newY = prev.y + dy * speed;
         return { x: newX, y: newY };

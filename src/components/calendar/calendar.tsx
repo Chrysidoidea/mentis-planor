@@ -141,7 +141,6 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
                 <>
                   <span className="text-gray-300 text-xs">{exactLabel}</span>
                   <span className="text-gray-300 text-xs">
-                    {Math.round(totalMinutes)} m total
                   </span>
                 </>
               )}
