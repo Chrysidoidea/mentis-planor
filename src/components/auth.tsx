@@ -73,7 +73,7 @@ export const Authenticator = () => {
         <button
           onClick={handleAuth}
           disabled={loading}
-          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50" transition-all duration-200 ease-in-out
+          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50" 
         >
           {loading ? "Processing..." : isLogin ? "Login" : "Register"}
         </button>
