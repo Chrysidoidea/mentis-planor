@@ -4,14 +4,23 @@ import { useState, useEffect } from "react";
 import { db } from "@/firebase/config";
 import { useAuth } from "@/firebase/useAuth";
 import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
-import { startOfMonth, endOfMonth, getDay, eachDayOfInterval, format } from "date-fns";
+import {
+  startOfMonth,
+  endOfMonth,
+  getDay,
+  eachDayOfInterval,
+  format,
+} from "date-fns";
 import type { AuthUser } from "@/firebase/useAuth";
 import type { TimeBlock, CalendarEvent } from "./types/types";
 import { Modal } from "./modal";
 import { getColorClass } from "./helpers";
 import { CalendarHeader } from "./header";
 
-const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) => {
+const Calendar: React.FC<{ month: number; year: number }> = ({
+  month,
+  year,
+}) => {
   const { user } = useAuth() as { user: AuthUser | null };
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -32,10 +41,18 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
     if (!user) return;
     setData({});
 
-    const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
+    const ref = doc(
+      db,
+      "calendar_events",
+      user.uid,
+      `${year}_${month}`,
+      "data"
+    );
     const unsub = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
-        const firestoreData = snap.data() as { days?: Record<number, CalendarEvent> };
+        const firestoreData = snap.data() as {
+          days?: Record<number, CalendarEvent>;
+        };
         setData(firestoreData.days || {});
       } else {
         setData({});
@@ -49,7 +66,13 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
   const handleSaveDay = async (day: number, sessions: TimeBlock[]) => {
     if (!user) return;
 
-    const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
+    const ref = doc(
+      db,
+      "calendar_events",
+      user.uid,
+      `${year}_${month}`,
+      "data"
+    );
     const updated = { ...data, [day]: { sessions } };
     setData(updated);
 
@@ -117,7 +140,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
   return (
     <>
       <CalendarHeader />
-      <section className="grid grid-cols-7 gap-2 p-4 w-full relative">
+      <section className="grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative">
         {/* Empty cells before first day */}
         {Array.from({ length: startIndex }).map((_, i) => (
           <div key={`empty-${i}`} className="opacity-0 pointer-events-none" />
@@ -140,8 +163,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({ month, year }) =>
               {totalMinutes > 0 && (
                 <>
                   <span className="text-gray-300 text-xs">{exactLabel}</span>
-                  <span className="text-gray-300 text-xs">
-                  </span>
+                  <span className="text-gray-300 text-xs"></span>
                 </>
               )}
               {data[dayNum]?.sessions && (
