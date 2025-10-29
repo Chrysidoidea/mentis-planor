@@ -50,7 +50,7 @@ export default function Home() {
       {user ? (
         <button
           onClick={handleLogout}
-          className="text-xs cursor-pointer text-gray-400 mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
+          className="text-xs cursor-pointer text-gray-400 mt-0 md:mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
         >
           Log out
         </button>
@@ -65,7 +65,7 @@ export default function Home() {
           </button>
 
           <span
-            className="text-2xl font-bold text-gray-300"
+            className="text-2xl font-bold text-center text-gray-300"
           >
             {monthNames[month]} {year}
           </span>
