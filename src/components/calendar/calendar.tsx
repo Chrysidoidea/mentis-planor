@@ -1,9 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { db } from "@/firebase/config";
-import { useAuth } from "@/firebase/useAuth";
-import { doc, getDoc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import {
   startOfMonth,
   endOfMonth,
@@ -11,106 +7,32 @@ import {
   eachDayOfInterval,
   format,
 } from "date-fns";
-import type { AuthUser } from "@/firebase/useAuth";
-import type { TimeBlock, CalendarEvent } from "./types/types";
-import { Modal } from "./modal";
 import { getColorClass } from "./helpers";
 import { CalendarHeader } from "./header";
+import { dayClickHandler } from "./helpers";
+import {
+  dataAtom,
+  isOpeningAtom,
+  isClosingAtom,
+  selectDayAtom,
+} from "@/app/page";
+import { useAtom } from "jotai";
 
 const Calendar: React.FC<{ month: number; year: number }> = ({
   month,
   year,
 }) => {
-  const { user } = useAuth() as { user: AuthUser | null };
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
-  const [isOpening, setIsOpening] = useState(false);
-  const [data, setData] = useState<Record<number, CalendarEvent>>({});
+  const [data] = useAtom(dataAtom);
+  const [, setIsOpening] = useAtom(isOpeningAtom);
+  const [, setIsClosing] = useAtom(isClosingAtom);
+  const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
 
-  // === compute first day offset (Monday-based) ===
   const firstDay = startOfMonth(new Date(year, month));
+  const lastDay = endOfMonth(firstDay);
   const dayOfWeek = getDay(firstDay);
   const startIndex = (dayOfWeek + 6) % 7;
 
-  // === make day list ===
-  const lastDay = endOfMonth(firstDay);
   const allDays = eachDayOfInterval({ start: firstDay, end: lastDay });
-
-  // === load data ===
-  useEffect(() => {
-    if (!user) return;
-    setData({});
-
-    const ref = doc(
-      db,
-      "calendar_events",
-      user.uid,
-      `${year}_${month}`,
-      "data"
-    );
-    const unsub = onSnapshot(ref, (snap) => {
-      if (snap.exists()) {
-        const firestoreData = snap.data() as {
-          days?: Record<number, CalendarEvent>;
-        };
-        setData(firestoreData.days || {});
-      } else {
-        setData({});
-      }
-    });
-
-    return () => unsub();
-  }, [user, month, year]);
-
-  // === save day ===
-  const handleSaveDay = async (day: number, sessions: TimeBlock[]) => {
-    if (!user) return;
-
-    const ref = doc(
-      db,
-      "calendar_events",
-      user.uid,
-      `${year}_${month}`,
-      "data"
-    );
-    const updated = { ...data, [day]: { sessions } };
-    setData(updated);
-
-    try {
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        await updateDoc(ref, { days: updated, updatedAt: new Date() });
-      } else {
-        await setDoc(ref, { days: updated, updatedAt: new Date() });
-      }
-    } catch (err) {
-      console.error("Error saving calendar data:", err);
-    }
-
-    setIsClosing(true);
-    setTimeout(() => {
-      setSelectedDay(null);
-      setIsClosing(false);
-      setIsOpening(false);
-    }, 300);
-  };
-
-  // === click handler ===
-  const dayClickHandler = (day: number) => {
-    if (selectedDay === day) {
-      setIsClosing(true);
-      setTimeout(() => {
-        setSelectedDay(null);
-        setIsClosing(false);
-        setIsOpening(false);
-      }, 300);
-    } else {
-      setSelectedDay(day);
-      setTimeout(() => setIsOpening(true), 20);
-    }
-  };
-
-  // === helpers ===
   const getTotalMinutes = (day: number) => {
     const sessions = data[day]?.sessions;
     if (!sessions) return 0;
@@ -136,17 +58,14 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     }
   };
 
-  // === render ===
   return (
     <>
       <CalendarHeader />
       <section className="grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative">
-        {/* Empty cells before first day */}
         {Array.from({ length: startIndex }).map((_, i) => (
           <div key={`empty-${i}`} className="opacity-0 pointer-events-none" />
         ))}
 
-        {/* Days */}
         {allDays.map((date) => {
           const dayNum = Number(format(date, "d"));
           const totalMinutes = getTotalMinutes(dayNum);
@@ -156,7 +75,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
           return (
             <div
               key={dayNum}
-              onClick={() => dayClickHandler(dayNum)}
+              onClick={() => dayClickHandler(dayNum, selectedDay, setIsClosing, setSelectedDay, setIsOpening)}
               className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass}`}
             >
               <span className="font-semibold">{dayNum}</span>
@@ -175,17 +94,6 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
             </div>
           );
         })}
-
-        {selectedDay && (
-          <Modal
-            day={selectedDay}
-            isOpening={isOpening}
-            isClosing={isClosing}
-            onClose={() => dayClickHandler(selectedDay)}
-            onSave={handleSaveDay}
-            existing={data[selectedDay]}
-          />
-        )}
       </section>
     </>
   );

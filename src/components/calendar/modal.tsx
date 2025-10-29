@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { TimeBlock, CalendarEvent } from "./types/types";
 
-// === Modal component for adding or editing time sessions for a given day ===
 export const Modal = ({
   day,
   isOpening,
@@ -18,14 +17,12 @@ export const Modal = ({
   onSave: (day: number, sessions: TimeBlock[]) => void;
   existing?: CalendarEvent;
 }) => {
-  // === initialize sessions: use existing data if available, otherwise create one empty block ===
   const [sessions, setSessions] = useState<TimeBlock[]>(
     existing?.sessions || [
       { start: "", end: "", total: "", minutes: 0, description: "" },
     ]
   );
 
-  // === helper: calculate duration between start and end time ===
   const calculateDuration = (start: string, end: string) => {
     const [sh, sm] = start.split(":").map(Number);
     const [eh, em] = end.split(":").map(Number);
@@ -35,7 +32,6 @@ export const Modal = ({
     const endMin = eh * 60 + em;
     let diff = endMin - startMin;
 
-    // handle overnight sessions (e.g., 23:00 → 01:00)
     if (diff < 0) diff += 24 * 60;
 
     const hours = Math.floor(diff / 60);
@@ -46,7 +42,6 @@ export const Modal = ({
     };
   };
 
-  // === update session field (start, end, total, description, etc.) ===
   const updateSession = (
     index: number,
     field: keyof TimeBlock,
@@ -55,7 +50,6 @@ export const Modal = ({
     const newSessions = [...sessions];
     newSessions[index] = { ...newSessions[index], [field]: value };
 
-    // auto-recalculate duration if start or end changed
     if (field === "start" || field === "end") {
       const { total, minutes } = calculateDuration(
         newSessions[index].start,
@@ -68,7 +62,6 @@ export const Modal = ({
     setSessions(newSessions);
   };
 
-  // === add empty session row ===
   const addSession = () => {
     setSessions([
       ...sessions,
@@ -76,19 +69,16 @@ export const Modal = ({
     ]);
   };
 
-  // === remove session by index ===
   const removeSession = (index: number) => {
     const updated = sessions.filter((_, i) => i !== index);
     setSessions(updated);
   };
 
-  // === derive full date and weekday name from current month + day ===
   const fullDate = new Date();
   fullDate.setDate(day);
   const weekdayName = fullDate.toLocaleDateString("en-US", { weekday: "long" });
 
   return (
-    // === modal wrapper with animation states (open / close) ===
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
       ${
@@ -100,20 +90,17 @@ export const Modal = ({
       }
       w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl  z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
     >
-      {/* === header (shows selected day) === */}
       <span
         className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
       >
         {weekdayName} {day}
       </span>
 
-      {/* === list of session blocks === */}
       {sessions.map((s, i) => (
         <div
           key={i}
           className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-700/5 transition-all duration-200 ease-in-out"
         >
-          {/* === time inputs + delete button === */}
           <div className="flex items-center gap-2 flex-col md:flex-row">
             <input
               type="text"
@@ -129,7 +116,7 @@ export const Modal = ({
               placeholder="End (HH:MM)"
               value={s.end}
               onChange={(e) => updateSession(i, "end", e.target.value)}
-              className="rounded-md w-30 px-1 text-gray-200appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              className="rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs md:text-sm"
             />
             <span className="text-gray-200 text-sm w-20 text-center">
@@ -143,7 +130,7 @@ export const Modal = ({
             </button>
           </div>
 
-          {/* === description text area === */}
+
           <textarea
             placeholder="Description..."
             value={s.description}
