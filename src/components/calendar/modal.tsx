@@ -98,11 +98,11 @@ export const Modal = ({
           ? "opacity-100 scale-100"
           : "opacity-0 scale-90"
       }
-      w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
+      w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl  z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
     >
       {/* === header (shows selected day) === */}
       <span
-        className="text-4xl font-bold text-gray-300 mb-6"
+        className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
       >
         {weekdayName} {day}
       </span>
@@ -114,20 +114,23 @@ export const Modal = ({
           className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-700/5 transition-all duration-200 ease-in-out"
         >
           {/* === time inputs + delete button === */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-col md:flex-row">
             <input
               type="text"
               placeholder="Start (HH:MM)"
               value={s.start}
               onChange={(e) => updateSession(i, "start", e.target.value)}
-              className="rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent"
+              className="rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              text-xs h-8 md:text-sm
+              "
             />
             <input
               type="text"
               placeholder="End (HH:MM)"
               value={s.end}
               onChange={(e) => updateSession(i, "end", e.target.value)}
-              className="rounded-md w-30 px-1 text-gray-200appearance-none focus:outline-none focus:ring-0 border-none bg-transparent"
+              className="rounded-md w-30 px-1 text-gray-200appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              text-xs md:text-sm"
             />
             <span className="text-gray-200 text-sm w-20 text-center">
               {s.total || "total"}
@@ -145,28 +148,30 @@ export const Modal = ({
             placeholder="Description..."
             value={s.description}
             onChange={(e) => updateSession(i, "description", e.target.value)}
-            className="bg-gray-900/10 rounded-md px-2 py-1 text-gray-200 resize-none w-full h-8 focus:outline-none focus:ring-0 border-none"
+            className="bg-gray-900/10 rounded-md px-1 py-1 text-gray-200 resize-none 
+            text-xs h-8 md:text-sm
+            focus:outline-none focus:ring-0 border-none"
           />
         </div>
       ))}
 
       {/* === footer controls (add, save, close) === */}
-      <div className="flex gap-3 mt-4">
+      <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
         <button
           onClick={addSession}
-          className="px-3 py-1 bg-gray-500 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
+          className="px-2 py-2 md:px-4 md:py-2 bg-gray-500 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
         >
           + Add Row
         </button>
         <button
           onClick={() => onSave(day, sessions)}
-          className="px-3 py-1 bg-green-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
+          className="px-2 py-2 md:px-4 bg-green-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
         >
           Save
         </button>
         <button
           onClick={onClose}
-          className="px-3 py-1 bg-gray-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
+          className="px-2 py-2 md:px-4 bg-gray-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
         >
           Close
         </button>
