@@ -80,7 +80,7 @@ export const Modal = ({
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
+      className={`max-h-64 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
       ${
         isClosing
           ? "opacity-0 scale-90"
@@ -107,7 +107,7 @@ export const Modal = ({
               placeholder="Start (HH:MM)"
               value={s.start}
               onChange={(e) => updateSession(i, "start", e.target.value)}
-              className="rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs h-8 md:text-sm
               "
             />
@@ -116,7 +116,7 @@ export const Modal = ({
               placeholder="End (HH:MM)"
               value={s.end}
               onChange={(e) => updateSession(i, "end", e.target.value)}
-              className="rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs md:text-sm"
             />
             <span className="text-gray-200 text-sm w-20 text-center">
