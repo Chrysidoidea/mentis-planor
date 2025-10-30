@@ -135,14 +135,13 @@ export const Modal = ({
             placeholder="Description..."
             value={s.description}
             onChange={(e) => updateSession(i, "description", e.target.value)}
-            className="bg-gray-900/10 rounded-md px-1 py-1 text-gray-200 resize-none 
+            className="resize-y bg-gray-900/10 rounded-md px-1 py-1 text-gray-200
             text-xs h-8 md:text-sm
             focus:outline-none focus:ring-0 border-none"
           />
         </div>
       ))}
 
-      {/* === footer controls (add, save, close) === */}
       <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
         <button
           onClick={addSession}

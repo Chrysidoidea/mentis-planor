@@ -50,7 +50,6 @@ export const handleSaveDay = async ({
 
   const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
 
-  // Update local state first for immediate UI feedback
   const updated = { ...data, [day]: { sessions } };
   setData(updated);
 

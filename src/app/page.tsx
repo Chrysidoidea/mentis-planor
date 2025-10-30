@@ -56,7 +56,7 @@ export default function Home() {
     });
 
     return () => unsub();
-  }, [user, month, year]);
+  }, [user, month, year, setData]);
 
   const handlePrevMonth = () => {
     setMonth((prev) => {
@@ -103,7 +103,7 @@ export default function Home() {
             ← Prev
           </button>
 
-          <span className="text-2xl font-bold text-center text-gray-300">
+          <span className="text-2xl font-bold text-center text-gray-300 pb-8">
             {monthNames[month]} {year}
           </span>
 
