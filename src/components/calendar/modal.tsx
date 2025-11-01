@@ -145,19 +145,19 @@ export const Modal = ({
       <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
         <button
           onClick={addSession}
-          className="px-2 py-2 md:px-4 md:py-2 bg-gray-500 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
+          className="px-2 py-2 md:px-4 bg-gray-500 text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
         >
           + Add Row
         </button>
         <button
           onClick={() => onSave(day, sessions)}
-          className="px-2 py-2 md:px-4 bg-green-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
+          className="px-2 py-2 md:px-4 bg-green-700 text-white text-xl rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
         >
           Save
         </button>
         <button
           onClick={onClose}
-          className="px-2 py-2 md:px-4 bg-gray-700 text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
+          className="px-2 py-2 md:px-4 bg-gray-700 text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
         >
           Close
         </button>

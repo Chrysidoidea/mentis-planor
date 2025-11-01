@@ -46,7 +46,7 @@ export const Authenticator = () => {
         </h2>
 
         <Image
-          src={isLogin ? "/image2.jpeg" : "/image.png"}
+          src="/user.png"
           width={150}
           height={150}
           alt="Auth illustration"
