@@ -20,12 +20,16 @@ export const selectDayAtom = atom<number | null>(null);
 export const isClosingAtom = atom<boolean>(false);
 export const isOpeningAtom = atom<boolean>(false);
 export const dataAtom = atom<Record<number, CalendarEvent>>({});
+export const animationTriggeredAtom = atom<boolean>(false);
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
   const [isClosing, setIsClosing] = useAtom(isClosingAtom);
   const [isOpening, setIsOpening] = useAtom(isOpeningAtom);
   const [data, setData] = useAtom(dataAtom);
+  const [animationTriggered, setAnimationTriggered] = useAtom(
+    animationTriggeredAtom
+  );
 
   const { user } = useAuth();
 
@@ -59,23 +63,33 @@ export default function Home() {
   }, [user, month, year, setData]);
 
   const handlePrevMonth = () => {
-    setMonth((prev) => {
-      if (prev === 0) {
-        setYear((y) => y - 1);
-        return 11;
-      }
-      return prev - 1;
-    });
+    setAnimationTriggered(true);
+
+    setTimeout(() => {
+      setAnimationTriggered(false);
+      setMonth((prev) => {
+        if (prev === 0) {
+          setYear((y) => y - 1);
+          return 11;
+        }
+        return prev - 1;
+      });
+    }, 100);
   };
 
   const handleNextMonth = () => {
-    setMonth((prev) => {
-      if (prev === 11) {
-        setYear((y) => y + 1);
-        return 0;
-      }
-      return prev + 1;
-    });
+    setAnimationTriggered(true);
+
+    setTimeout(() => {
+      setAnimationTriggered(false);
+      setMonth((prev) => {
+        if (prev === 11) {
+          setYear((y) => y + 1);
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 100);
   };
 
   const handleLogout = async () => {

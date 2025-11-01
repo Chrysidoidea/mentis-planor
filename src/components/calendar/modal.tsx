@@ -17,6 +17,7 @@ export const Modal = ({
   onSave: (day: number, sessions: TimeBlock[]) => void;
   existing?: CalendarEvent;
 }) => {
+
   const [sessions, setSessions] = useState<TimeBlock[]>(
     existing?.sessions || [
       { start: "", end: "", total: "", minutes: 0, description: "" },
@@ -90,9 +91,7 @@ export const Modal = ({
       }
       w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl  z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
     >
-      <span
-        className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
-      >
+      <span className="text-2xl md:text-4xl font-bold text-gray-300 mb-6">
         {weekdayName} {day}
       </span>
 
@@ -129,7 +128,6 @@ export const Modal = ({
               delete
             </button>
           </div>
-
 
           <textarea
             placeholder="Description..."

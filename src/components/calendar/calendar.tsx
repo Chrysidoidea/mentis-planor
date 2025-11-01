@@ -1,5 +1,6 @@
 "use client";
 
+
 import {
   startOfMonth,
   endOfMonth,
@@ -17,6 +18,7 @@ import {
   selectDayAtom,
 } from "@/app/page";
 import { useAtom } from "jotai";
+  import { animationTriggeredAtom } from "@/app/page";
 
 const Calendar: React.FC<{ month: number; year: number }> = ({
   month,
@@ -26,6 +28,8 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   const [, setIsOpening] = useAtom(isOpeningAtom);
   const [, setIsClosing] = useAtom(isClosingAtom);
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
+  const [animationTriggered] = useAtom(animationTriggeredAtom)
+
 
   const firstDay = startOfMonth(new Date(year, month));
   const lastDay = endOfMonth(firstDay);
@@ -61,7 +65,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   return (
     <>
       <CalendarHeader />
-      <section className="grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative">
+      <section className={`grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative ${animationTriggered ? "opacity-0" : "opacity-100"} transition-all duration-100 ease-in-out`}>
         {Array.from({ length: startIndex }).map((_, i) => (
           <div key={`empty-${i}`} className="opacity-0 pointer-events-none" />
         ))}
@@ -75,7 +79,15 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
           return (
             <div
               key={dayNum}
-              onClick={() => dayClickHandler(dayNum, selectedDay, setIsClosing, setSelectedDay, setIsOpening)}
+              onClick={() =>
+                dayClickHandler(
+                  dayNum,
+                  selectedDay,
+                  setIsClosing,
+                  setSelectedDay,
+                  setIsOpening
+                )
+              }
               className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass}`}
             >
               <span className="font-semibold">{dayNum}</span>
