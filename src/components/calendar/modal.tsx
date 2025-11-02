@@ -80,7 +80,16 @@ export const Modal = ({
   fullDate.setDate(day);
   const weekdayName = fullDate.toLocaleDateString("en-US", { weekday: "long" });
 
-    useEffect(() => {
+  const setCurrentTime = (index: number, field: "start" | "end") => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const time24 = `${hours}:${minutes}`;
+
+    updateSession(index, field, time24);
+  };
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         modalRef.current &&
@@ -128,6 +137,15 @@ export const Modal = ({
               text-xs h-8 md:text-sm
               "
             />
+            <button
+              onClick={() => {
+                setCurrentTime(i, "start");
+              }}
+              className="text-lime-400 cursor-pointer hover:text-lime-100 transition-all duration-300 ease-in-out"
+            >
+              start
+            </button>
+
             <input
               type="text"
               placeholder="End (HH:MM)"
@@ -136,6 +154,14 @@ export const Modal = ({
               className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs md:text-sm"
             />
+            <button
+              onClick={() => {
+                setCurrentTime(i, "end");
+              }}
+              className="text-lime-400 cursor-pointer hover:text-lime-100 transition-all duration-300 ease-in-out"
+            >
+              end
+            </button>
             <span className="text-gray-200 text-sm w-20 text-center">
               {s.total || "total"}
             </span>
