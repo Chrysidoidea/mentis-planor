@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TimeBlock, CalendarEvent } from "./types/types";
 
 export const Modal = ({
@@ -17,6 +17,7 @@ export const Modal = ({
   onSave: (day: number, sessions: TimeBlock[]) => void;
   existing?: CalendarEvent;
 }) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [sessions, setSessions] = useState<TimeBlock[]>(
     existing?.sessions || [
@@ -79,6 +80,22 @@ export const Modal = ({
   fullDate.setDate(day);
   const weekdayName = fullDate.toLocaleDateString("en-US", { weekday: "long" });
 
+    useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        event.target &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
   return (
     <div
       className={`max-h-64 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
@@ -90,6 +107,7 @@ export const Modal = ({
           : "opacity-0 scale-90"
       }
       w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl  z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
+      ref={modalRef}
     >
       <span className="text-2xl md:text-4xl font-bold text-gray-300 mb-6">
         {weekdayName} {day}
@@ -143,19 +161,19 @@ export const Modal = ({
       <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
         <button
           onClick={addSession}
-          className="px-2 py-2 md:px-4 bg-gray-500 text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
+          className="px-2 py-2 md:px-4 bg-gray-500 text-xs md:text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400"
         >
           + Add Row
         </button>
         <button
           onClick={() => onSave(day, sessions)}
-          className="px-2 py-2 md:px-4 bg-green-700 text-white text-xl rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
+          className="px-2 py-2 md:px-4 bg-green-700 text-white text-xs md:text-xl rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 "
         >
           Save
         </button>
         <button
           onClick={onClose}
-          className="px-2 py-2 md:px-4 bg-gray-700 text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
+          className="px-2 py-2 md:px-4 bg-gray-700 text-xs md:text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 "
         >
           Close
         </button>

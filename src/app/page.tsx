@@ -27,7 +27,7 @@ export default function Home() {
   const [isClosing, setIsClosing] = useAtom(isClosingAtom);
   const [isOpening, setIsOpening] = useAtom(isOpeningAtom);
   const [data, setData] = useAtom(dataAtom);
-  const [animationTriggered, setAnimationTriggered] = useAtom(
+  const [, setAnimationTriggered] = useAtom(
     animationTriggeredAtom
   );
 
@@ -112,7 +112,7 @@ export default function Home() {
         <section className="pt-5 text-gray-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
           <button
             onClick={handlePrevMonth}
-            className="text-white hover:text-gray-400 transition text-2xl cursor-pointer"
+            className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
           >
             ← Prev
           </button>
@@ -123,7 +123,7 @@ export default function Home() {
 
           <button
             onClick={handleNextMonth}
-            className="text-white hover:text-gray-400 transition text-2xl cursor-pointer"
+            className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
           >
             Next →
           </button>
