@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className=" inset-0 bg-cover bg-center bg-fixed"
+        className=" inset-0 bg-cover bg-center bg-fixed bg-black"
         style={{
           backgroundImage: "url('/background.png')",
         }}
