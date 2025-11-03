@@ -1,35 +1,32 @@
 "use client";
 
 import Calendar from "@/components/calendar/calendar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CursorGlow from "@/effects/glowCursorEffect";
 import { monthNames } from "@/config/monthHelper";
 import { Authenticator } from "@/components/auth";
 import { useAuth } from "@/firebase/useAuth";
-import { useState } from "react";
-import { auth } from "@/firebase/config";
+import { auth, db } from "@/firebase/config";
 import { signOut } from "firebase/auth";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { CalendarEvent } from "@/components/calendar/types/types";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "@/firebase/config";
 import { Modal } from "@/components/calendar/modal";
 import { dayClickHandler, handleSaveDay } from "@/components/calendar/helpers";
-
-export const selectDayAtom = atom<number | null>(null);
-export const isClosingAtom = atom<boolean>(false);
-export const isOpeningAtom = atom<boolean>(false);
-export const dataAtom = atom<Record<number, CalendarEvent>>({});
-export const animationTriggeredAtom = atom<boolean>(false);
+import {
+  dataAtom,
+  isOpeningAtom,
+  isClosingAtom,
+  selectDayAtom,
+  animationTriggeredAtom,
+} from "@/config/atoms/atoms";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
   const [isClosing, setIsClosing] = useAtom(isClosingAtom);
   const [isOpening, setIsOpening] = useAtom(isOpeningAtom);
   const [data, setData] = useAtom(dataAtom);
-  const [, setAnimationTriggered] = useAtom(
-    animationTriggeredAtom
-  );
+  const [, setAnimationTriggered] = useAtom(animationTriggeredAtom);
 
   const { user } = useAuth();
 
@@ -62,32 +59,19 @@ export default function Home() {
     return () => unsub();
   }, [user, month, year, setData]);
 
-  const handlePrevMonth = () => {
+  const handleMonthSwitch = (direction: "prev" | "next"): void => {
     setAnimationTriggered(true);
 
     setTimeout(() => {
       setAnimationTriggered(false);
       setMonth((prev) => {
-        if (prev === 0) {
-          setYear((y) => y - 1);
-          return 11;
+        if (direction === "prev") {
+          return prev === 0 ? (setYear((y) => y - 1), 11) : prev - 1;
         }
-        return prev - 1;
-      });
-    }, 100);
-  };
-
-  const handleNextMonth = () => {
-    setAnimationTriggered(true);
-
-    setTimeout(() => {
-      setAnimationTriggered(false);
-      setMonth((prev) => {
-        if (prev === 11) {
-          setYear((y) => y + 1);
-          return 0;
+        if (direction === "next") {
+          return prev === 11 ? (setYear((y) => y + 1), 0) : prev + 1;
         }
-        return prev + 1;
+        return prev;
       });
     }, 100);
   };
@@ -111,7 +95,7 @@ export default function Home() {
       {user && (
         <section className="pt-5 text-gray-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
           <button
-            onClick={handlePrevMonth}
+            onClick={() => handleMonthSwitch("prev")}
             className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
           >
             ← Prev
@@ -122,7 +106,7 @@ export default function Home() {
           </span>
 
           <button
-            onClick={handleNextMonth}
+            onClick={() => handleMonthSwitch("next")}
             className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
           >
             Next →

@@ -3,10 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Mentis Planor",
-  description: "Application for planning your study time, where 4 hrs of studying per day considered as best",
+  description:
+    "Application for planning your study time, where 4 hrs of studying per day considered as best",
   icons: {
-    icon: '/favicon.png',
-    apple: '/favicon.png',
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
@@ -23,8 +24,7 @@ export default function RootLayout({
           backgroundImage: "url('/background.png')",
         }}
       >
-        <div className="inset-0 bg-black/40" />
-        <main className=" z-10">
+        <main className="z-10">
           <div className={`antialiased bg-transparent`}>{children}</div>
         </main>
       </body>

@@ -21,9 +21,9 @@ export const Authenticator = () => {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
         await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -36,13 +36,11 @@ export const Authenticator = () => {
     }
   };
 
-
-
   return (
     <section className="grid place-content-center min-h-screen text-gray-200">
       <div className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]">
         <h2 className="text-center font-bold text-xl mb-2">
-          {isLogin ? "Login" : "Register"}
+          {isLogin ? "Register" : "Login"}
         </h2>
 
         <Image
@@ -73,9 +71,9 @@ export const Authenticator = () => {
         <button
           onClick={handleAuth}
           disabled={loading}
-          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50" 
+          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50"
         >
-          {loading ? "Processing..." : isLogin ? "Login" : "Register"}
+          {loading ? "Processing..." : isLogin ? "Register" : "Login"}
         </button>
 
         <button
@@ -83,10 +81,9 @@ export const Authenticator = () => {
           className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200 "
         >
           {isLogin
-            ? "Need an account? Register"
-            : "Already have an account? Login"}
+            ? "Already have an account? Login"
+            : "Need an account? Register"}
         </button>
-
       </div>
     </section>
   );
