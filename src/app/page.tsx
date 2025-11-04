@@ -1,8 +1,6 @@
 "use client";
 
-import Calendar from "@/components/calendar/calendar";
 import { useEffect, useState } from "react";
-import CursorGlow from "@/effects/glowCursorEffect";
 import { monthNames } from "@/config/monthHelper";
 import { Authenticator } from "@/components/auth";
 import { useAuth } from "@/firebase/useAuth";
@@ -11,7 +9,6 @@ import { signOut } from "firebase/auth";
 import { useAtom } from "jotai";
 import { CalendarEvent } from "@/components/calendar/types/types";
 import { doc, onSnapshot } from "firebase/firestore";
-import { Modal } from "@/components/calendar/modal";
 import { dayClickHandler, handleSaveDay } from "@/components/calendar/helpers";
 import {
   dataAtom,
@@ -20,6 +17,9 @@ import {
   selectDayAtom,
   animationTriggeredAtom,
 } from "@/config/atoms/atoms";
+import Calendar from "@/components/calendar/calendar";
+import CursorGlow from "@/effects/glowCursorEffect";
+import Modal from "@/components/calendar/modal";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);

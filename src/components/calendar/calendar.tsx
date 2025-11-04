@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useMemo} from "react";
 import {
   startOfMonth,
   endOfMonth,
@@ -29,12 +29,15 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
   const [animationTriggered] = useAtom(animationTriggeredAtom);
 
+const { allDays, startIndex } = useMemo(() => {
   const firstDay = startOfMonth(new Date(year, month));
   const lastDay = endOfMonth(firstDay);
   const dayOfWeek = getDay(firstDay);
   const startIndex = (dayOfWeek + 6) % 7;
-
   const allDays = eachDayOfInterval({ start: firstDay, end: lastDay });
+  return { allDays, startIndex };
+}, [month, year]);
+
   const getTotalMinutes = (day: number) => {
     const sessions = data[day]?.sessions;
     if (!sessions) return 0;
@@ -113,4 +116,4 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   );
 };
 
-export default React.memo(Calendar);
+export default Calendar;
