@@ -94,7 +94,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
                 )
               }
               className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass} ${
-                isOpening ? "pointer-events-none" : "pointer-events-auto"
+                isOpening ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"
               }`}
             >
               <span className="font-semibold">{dayNum}</span>
