@@ -81,7 +81,7 @@ const Modal = ({
         event.target &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        onClose();
+        onSave(day, sessions);
       }
     };
 
@@ -89,7 +89,7 @@ const Modal = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [onClose, onSave, day, sessions]);
   return (
     <div
       className={`max-h-64 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
