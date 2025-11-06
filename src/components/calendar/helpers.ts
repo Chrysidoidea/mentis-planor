@@ -4,13 +4,13 @@ import type { HandleSaveDayProps } from "./types/types";
 export const getColorClass = (totalMinutes: number) => {
   const hours = totalMinutes / 60;
   if (hours >= 4)
-    return "bg-green-600/50 border-green-500 shadow-green-800/40";
+    return "bg-green-600/20 border-green-500 shadow-green-800/40";
   if (hours >= 3)
-    return "bg-lime-900/50 border-lime-500 shadow-lime-800/40";
+    return "bg-lime-900/20 border-lime-500 shadow-lime-800/40";
   if (hours >= 1)
-    return "bg-orange-900/50 border-orange-500 shadow-orange-800/40";
+    return "bg-orange-900/20 border-orange-500 shadow-orange-800/40";
   if (hours > 0)
-    return "bg-red-900/50 border-red-500 shadow-red-800/40";
+    return "bg-red-900/20 border-red-500 shadow-red-800/40";
   return "bg-gray-850/90 border-gray-500";
 };
 

@@ -91,7 +91,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
                   setIsOpening
                 )
               }
-              className={`relative w-full h-20 border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none hover:scale-105 ${colorClass} ${
+              className={`relative w-full h-20 border rounded-md transition-all duration-400 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none hover:scale-105 ${colorClass} ${
                 isOpening ? "pointer-events-none blur-md" : "pointer-events-auto blur-none"
               } ${animationTriggered ? "opacity-0 backdrop-blur-xs" : "opacity-100 backdrop-blur-lg "}`}
             >

@@ -20,6 +20,7 @@ import {
 import Calendar from "@/components/calendar/calendar";
 import CursorGlow from "@/effects/glowCursorEffect";
 import Modal from "@/components/calendar/modal";
+import Image from "next/image";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
@@ -73,7 +74,7 @@ export default function Home() {
         }
         return prev;
       });
-    }, 300);
+    }, 400);
   };
 
   const handleLogout = async () => {
@@ -81,7 +82,7 @@ export default function Home() {
   };
   return (
     <>
-      <h1 className="text-center z-50 p-2 m-5 text-4xl font-bold text-gray-300">
+      <h1 className="text-center z-50 p-2 m-5 text-4xl font-bold text-gray-300 ">
         Mentis Planor
       </h1>
       {user ? (
@@ -93,12 +94,12 @@ export default function Home() {
         </button>
       ) : null}
       {user && (
-        <section className="pt-5 text-gray-500 font-bold text-2xl grid grid-cols-3 place-content-center place-items-center">
+        <section className="pt-5 grid grid-cols-3 place-content-center place-items-center">
           <button
             onClick={() => handleMonthSwitch("prev")}
-            className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
+            className="hover:scale-110 transition-all duration-200 ease-in-out  cursor-pointer"
           >
-            ← Prev
+            <Image src="/backSvg.svg" alt="record" height={45} width={45} />
           </button>
 
           <span className="text-2xl font-bold text-center text-gray-300 pb-8">
@@ -107,9 +108,10 @@ export default function Home() {
 
           <button
             onClick={() => handleMonthSwitch("next")}
-            className="text-white hover:text-gray-400 transition text-xl md:text-2xl cursor-pointer"
+            className="hover:scale-110 transition-all duration-200 ease-in-out  cursor-pointer"
           >
-            Next →
+            {" "}
+            <Image src="/nextSvg.svg" alt="record" height={45} width={45} />
           </button>
         </section>
       )}
