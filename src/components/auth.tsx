@@ -36,55 +36,63 @@ export const Authenticator = () => {
     }
   };
 
-  return (
-    <section className="grid place-content-center min-h-screen text-gray-200">
-      <div className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]">
-        <h2 className="text-center font-bold text-xl mb-2">
-          {isLogin ? "Register" : "Login"}
-        </h2>
+  return (<section className="grid place-content-center text-gray-200">
+  <form
+    onSubmit={(e) => {
+      e.preventDefault()
+      handleAuth()
+    }}
+    className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]"
+  >
+    <h2 className="text-center font-bold text-xl mb-2">
+      {isLogin ? "Register" : "Login"}
+    </h2>
 
-        <Image
-          src="/user.png"
-          width={150}
-          height={150}
-          alt="Auth illustration"
-          className="mx-auto rounded-lg"
-        />
+    <Image
+      src="/user.png"
+      width={150}
+      height={150}
+      alt="Auth illustration"
+      className="mx-auto rounded-lg"
+    />
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
-        />
+    <input
+      type="email"
+      placeholder="Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
+      required
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
+      required
+    />
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+    {error && <p className="text-red-400 text-sm">{error}</p>}
 
-        <button
-          onClick={handleAuth}
-          disabled={loading}
-          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50"
-        >
-          {loading ? "Processing..." : isLogin ? "Register" : "Login"}
-        </button>
+    <button
+      type="submit"
+      disabled={loading}
+      className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50"
+    >
+      {loading ? "Processing..." : isLogin ? "Register" : "Login"}
+    </button>
 
-        <button
-          onClick={() => setIsLogin(!isLogin)}
-          className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200 "
-        >
-          {isLogin
-            ? "Already have an account? Login"
-            : "Need an account? Register"}
-        </button>
-      </div>
-    </section>
+    <button
+      type="button"
+      onClick={() => setIsLogin(!isLogin)}
+      className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200"
+    >
+      {isLogin
+        ? "Already have an account? Login"
+        : "Need an account? Register"}
+    </button>
+  </form>
+</section>
   );
 };

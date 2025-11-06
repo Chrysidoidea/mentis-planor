@@ -67,9 +67,7 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
     <>
       <CalendarHeader />
       <section
-        className={`grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative ${
-          animationTriggered ? "opacity-0" : "opacity-100"
-        } transition-all duration-100 ease-in-out`}
+        className={`grid grid-cols-7 gap-1 md:gap-2 p-1 md:p-4 w-full relative`}
       >
         {Array.from({ length: startIndex }).map((_, i) => (
           <div key={`empty-${i}`} className="opacity-0 pointer-events-none" />
@@ -93,16 +91,16 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
                   setIsOpening
                 )
               }
-              className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass} ${
-                isOpening ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"
-              }`}
+              className={`relative w-full h-20 border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none hover:scale-105 ${colorClass} ${
+                isOpening ? "pointer-events-none blur-md" : "pointer-events-auto blur-none"
+              } ${animationTriggered ? "opacity-0 backdrop-blur-xs" : "opacity-100 backdrop-blur-lg "}`}
             >
               <span className="font-semibold">{dayNum}</span>
               {totalMinutes > 0 && (
                 <span className="text-gray-300 text-xs">{exactLabel}</span>
               )}
               {data[dayNum]?.sessions && (
-                <span className="text-gray-400 text-[10px]">
+                <span className={`text-gray-400 text-[10px]`}>
                   {data[dayNum].sessions.length} entr
                   {data[dayNum].sessions.length === 1 ? "y" : "ies"}
                 </span>

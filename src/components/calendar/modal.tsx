@@ -92,15 +92,20 @@ const Modal = ({
   }, [onClose, onSave, day, sessions]);
   return (
     <div
-      className={`max-h-64 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out
-      ${
-        isClosing
-          ? "opacity-0 scale-90"
-          : isOpening
-          ? "opacity-100 scale-100"
-          : "opacity-0 scale-90"
-      }
-      w-[70vw] max-h-[80vh] overflow-y-auto bg-neutral-600/20 backdrop-glass border border-gray-700 rounded-2xl  z-[2120] flex flex-col items-center justify-start p-6 shadow-xl shadow-gray-600/40`}
+      className={`max-h-64 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+    transition-all duration-300 ease-in-out
+    ${
+      isClosing
+        ? "opacity-0 scale-90"
+        : isOpening
+        ? "opacity-100 scale-100"
+        : "opacity-0 scale-90"
+    }
+    w-[70vw] max-h-[80vh] overflow-y-auto
+    bg-neutral-600/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent
+    backdrop-blur-md border border-gray-700/60 rounded-2xl
+    shadow-xl  shadow-white/10
+    z-[2120] flex flex-col items-center justify-start p-6`}
       ref={modalRef}
     >
       <span className="text-2xl md:text-4xl font-bold text-gray-300 mb-6">
@@ -144,7 +149,7 @@ const Modal = ({
               onClick={() => {
                 setCurrentTime(i, "end");
               }}
-              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+              className=" cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
             >
               <Image src="/stopSvg.svg" alt="stop" height={25} width={25} />
             </button>
@@ -173,19 +178,19 @@ const Modal = ({
       <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
         <button
           onClick={addSession}
-          className="px-2 py-2 md:px-4 bg-gray-500 text-xs md:text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400 hover:scale-110 active:scale-95"
+          className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400/50 hover:scale-110 active:scale-95"
         >
           <Image src="/addRowSvg.svg" alt="addRow" height={45} width={45} />
         </button>
         <button
           onClick={() => onSave(day, sessions)}
-          className="px-2 py-2 md:px-4 bg-green-700 text-white text-xs md:text-xl rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600 hover:scale-110 active:scale-95"
+          className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600/50 hover:scale-110 active:scale-95"
         >
           <Image src="/saveSvg.svg" alt="save" height={25} width={25} />
         </button>
         <button
           onClick={onClose}
-          className="px-2 py-2 md:px-4 bg-gray-700 text-xs md:text-xl text-white rounded-md cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600 hover:scale-110 active:scale-95"
+          className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600/20 hover:scale-120 active:scale-95"
         >
           <Image src="/closeSvg.svg" alt="close" height={25} width={25} />
         </button>

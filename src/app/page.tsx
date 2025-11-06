@@ -73,7 +73,7 @@ export default function Home() {
         }
         return prev;
       });
-    }, 100);
+    }, 300);
   };
 
   const handleLogout = async () => {
