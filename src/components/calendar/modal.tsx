@@ -1,7 +1,10 @@
 "use client";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import { TimeBlock, CalendarEvent } from "./types/types";
+import { TimeBlock, CalendarEvent } from "@/components/calendar/types/types";
+import Image from "next/image";
+
+import { calculateDuration } from "@/components/calendar/helpers";
 
 const Modal = ({
   day,
@@ -25,25 +28,6 @@ const Modal = ({
       { start: "", end: "", total: "", minutes: 0, description: "" },
     ]
   );
-
-  const calculateDuration = (start: string, end: string) => {
-    const [sh, sm] = start.split(":").map(Number);
-    const [eh, em] = end.split(":").map(Number);
-    if (isNaN(sh) || isNaN(eh)) return { total: "", minutes: 0 };
-
-    const startMin = sh * 60 + sm;
-    const endMin = eh * 60 + em;
-    let diff = endMin - startMin;
-
-    if (diff < 0) diff += 24 * 60;
-
-    const hours = Math.floor(diff / 60);
-    const mins = diff % 60;
-    return {
-      total: `${hours}:${mins.toString().padStart(2, "0")} h`,
-      minutes: diff,
-    };
-  };
 
   const updateSession = (
     index: number,
@@ -142,9 +126,9 @@ const Modal = ({
               onClick={() => {
                 setCurrentTime(i, "start");
               }}
-              className="text-lime-400 cursor-pointer hover:text-lime-100 transition-all duration-300 ease-in-out"
+              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105  transition-all duration-300 ease-in-out"
             >
-              start
+              <Image src="/recordSvg.svg" alt="stop" height={25} width={25} />
             </button>
 
             <input
@@ -155,22 +139,23 @@ const Modal = ({
               className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs md:text-sm"
             />
+
             <button
               onClick={() => {
                 setCurrentTime(i, "end");
               }}
-              className="text-lime-400 cursor-pointer hover:text-lime-100 transition-all duration-300 ease-in-out"
+              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 transition-all duration-300 ease-in-out"
             >
-              end
+              <Image src="/stopSvg.svg" alt="stop" height={25} width={25} />
             </button>
             <span className="text-gray-200 text-sm w-20 text-center">
               {s.total || "total"}
             </span>
             <button
               onClick={() => removeSession(i)}
-              className="ml-2 text-red-400 transition-all duration-180 ease-in-out cursor-pointer hover:text-red-600 text-sm"
+              className="ml-2 text-red-400 transition-all duration-180 ease-in-out cursor-pointer hover:text-red-600 hover:scale-110 text-sm"
             >
-              delete
+              <Image src="/removeSvg.svg" alt="stop" height={25} width={25} />
             </button>
           </div>
 

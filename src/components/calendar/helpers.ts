@@ -75,3 +75,27 @@ export const handleSaveDay = async ({
     setIsOpening(false);
   }, 300);
 };
+
+export const calculateDuration = (start: string, end: string) => {
+  const [sh, sm] = start.split(":").map(Number);
+  const [eh, em] = end.split(":").map(Number);
+  if (
+    [sh, sm, eh, em].some((v) => isNaN(v)) ||
+    start.trim() === "" ||
+    end.trim() === ""
+  ) {
+    return { total: "", minutes: 0 };
+  }
+  const startMin = sh * 60 + sm;
+  const endMin = eh * 60 + em;
+  let diff = endMin - startMin;
+
+  if (diff < 0) diff += 24 * 60;
+
+  const hours = Math.floor(diff / 60);
+  const mins = diff % 60;
+  return {
+    total: `${hours}:${mins.toString().padStart(2, "0")} h`,
+    minutes: diff,
+  };
+};

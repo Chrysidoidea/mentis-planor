@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import {
   startOfMonth,
   endOfMonth,
@@ -29,14 +29,14 @@ const Calendar: React.FC<{ month: number; year: number }> = ({
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
   const [animationTriggered] = useAtom(animationTriggeredAtom);
 
-const { allDays, startIndex } = useMemo(() => {
-  const firstDay = startOfMonth(new Date(year, month));
-  const lastDay = endOfMonth(firstDay);
-  const dayOfWeek = getDay(firstDay);
-  const startIndex = (dayOfWeek + 6) % 7;
-  const allDays = eachDayOfInterval({ start: firstDay, end: lastDay });
-  return { allDays, startIndex };
-}, [month, year]);
+  const { allDays, startIndex } = useMemo(() => {
+    const firstDay = startOfMonth(new Date(year, month));
+    const lastDay = endOfMonth(firstDay);
+    const dayOfWeek = getDay(firstDay);
+    const startIndex = (dayOfWeek + 6) % 7;
+    const allDays = eachDayOfInterval({ start: firstDay, end: lastDay });
+    return { allDays, startIndex };
+  }, [month, year]);
 
   const getTotalMinutes = (day: number) => {
     const sessions = data[day]?.sessions;
@@ -93,14 +93,13 @@ const { allDays, startIndex } = useMemo(() => {
                   setIsOpening
                 )
               }
-              className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass} ${isOpening ? "pointer-events-none" : "pointer-events-auto"}`}
+              className={`relative border rounded-md transition-all duration-300 ease-in-out cursor-pointer flex flex-col justify-center items-center select-none backdrop-blur-lg hover:scale-105 ${colorClass} ${
+                isOpening ? "pointer-events-none" : "pointer-events-auto"
+              }`}
             >
               <span className="font-semibold">{dayNum}</span>
               {totalMinutes > 0 && (
-                <>
-                  <span className="text-gray-300 text-xs">{exactLabel}</span>
-                  <span className="text-gray-300 text-xs"></span>
-                </>
+                <span className="text-gray-300 text-xs">{exactLabel}</span>
               )}
               {data[dayNum]?.sessions && (
                 <span className="text-gray-400 text-[10px]">
