@@ -6,9 +6,16 @@ export const metadata: Metadata = {
   description:
     "Application for planning your study time, where 4 hrs of studying per day considered as best",
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
   },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
