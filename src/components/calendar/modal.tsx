@@ -118,6 +118,14 @@ const Modal = ({
           className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-700/5 transition-all duration-200 ease-in-out"
         >
           <div className="flex items-center gap-2 flex-col md:flex-row">
+            <button
+              onClick={() => {
+                setCurrentTime(i, "start");
+              }}
+              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+            >
+              <Image src="/playSvg.svg" alt="start" height={25} width={25} />
+            </button>
             <input
               type="text"
               placeholder="Start (HH:MM)"
@@ -129,13 +137,12 @@ const Modal = ({
             />
             <button
               onClick={() => {
-                setCurrentTime(i, "start");
+                setCurrentTime(i, "end");
               }}
-              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+              className=" cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
             >
-              <Image src="/recordSvg.svg" alt="record" height={25} width={25} />
+              <Image src="/stopSvg.svg" alt="stop" height={25} width={25} />
             </button>
-
             <input
               type="text"
               placeholder="End (HH:MM)"
@@ -145,20 +152,12 @@ const Modal = ({
               text-xs md:text-sm"
             />
 
-            <button
-              onClick={() => {
-                setCurrentTime(i, "end");
-              }}
-              className=" cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
-            >
-              <Image src="/stopSvg.svg" alt="stop" height={25} width={25} />
-            </button>
             <span className="text-gray-200 text-sm w-20 text-center">
               {s.total || "total"}
             </span>
             <button
               onClick={() => removeSession(i)}
-              className="ml-2 text-red-400 transition-all duration-180 ease-in-out cursor-pointer hover:scale-110 active:scale-95 text-sm"
+              className="ml-2 text-red-400 transition-all duration-180ease-in-out cursor-pointer hover:scale-110 active:scale-95 text-sm"
             >
               <Image src="/removeSvg.svg" alt="remove" height={25} width={25} />
             </button>
