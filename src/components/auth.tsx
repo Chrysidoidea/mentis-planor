@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import userImage from "../../public/user.png";
 import { auth } from "@/firebase/config";
 import {
   createUserWithEmailAndPassword,
@@ -9,18 +10,19 @@ import {
 } from "firebase/auth";
 
 export const Authenticator = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isRegister, setIsRegister] = useState<boolean>(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleAuth = async () => {
+    if (loading) return;
     setError(null);
     setLoading(true);
 
     try {
-      if (isLogin) {
+      if (isRegister) {
         await createUserWithEmailAndPassword(auth, email, password);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
@@ -29,70 +31,72 @@ export const Authenticator = () => {
       if (err instanceof Error) {
       }
       if (err instanceof Error) {
-        console.log(err.message);
+        setError(err.message);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  return (<section className="grid place-content-center text-gray-200">
-  <form
-    onSubmit={(e) => {
-      e.preventDefault()
-      handleAuth()
-    }}
-    className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]"
-  >
-    <h2 className="text-center font-bold text-xl mb-2">
-      {isLogin ? "Register" : "Login"}
-    </h2>
+  return (
+    <section className="grid place-content-center text-gray-200">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAuth();
+        }}
+        className="flex flex-col gap-2 p-6 bg-gray-900/40 backdrop-blur-md border border-gray-700 rounded-xl w-[260px]"
+      >
+        <h2 className="text-center font-bold text-xl mb-2">
+          {isRegister ? "Register" : "Login"}
+        </h2>
 
-    <Image
-      src="/user.png"
-      width={150}
-      height={150}
-      alt="Auth illustration"
-      className="mx-auto rounded-lg"
-    />
+        <Image
+          src={userImage}
+          width={150}
+          height={150}
+          alt="Auth illustration"
+          placeholder="blur"
+          className="mx-auto rounded-lg"
+        />
 
-    <input
-      type="email"
-      placeholder="Email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
-      required
-    />
-    <input
-      type="password"
-      placeholder="Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
-      required
-    />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="bg-gray-600/20 rounded-md w-full px-2 py-1 text-gray-200"
+          required
+        />
 
-    {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-red-400 text-sm">{error}</p>}
 
-    <button
-      type="submit"
-      disabled={loading}
-      className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50"
-    >
-      {loading ? "Processing..." : isLogin ? "Register" : "Login"}
-    </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-2 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-white cursor-pointer transition-all duration-200 ease-in-out disabled:opacity-50"
+        >
+          {loading ? "Processing..." : isRegister ? "Register" : "Login"}
+        </button>
 
-    <button
-      type="button"
-      onClick={() => setIsLogin(!isLogin)}
-      className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200"
-    >
-      {isLogin
-        ? "Already have an account? Login"
-        : "Need an account? Register"}
-    </button>
-  </form>
-</section>
+        <button
+          type="button"
+          onClick={() => setIsRegister(!isRegister)}
+          className="text-xs text-gray-300 mt-2 cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-200"
+        >
+          {isRegister
+            ? "Already have an account? Login"
+            : "Need an account? Register"}
+        </button>
+      </form>
+    </section>
   );
 };

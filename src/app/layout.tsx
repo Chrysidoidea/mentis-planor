@@ -28,7 +28,6 @@ export default function RootLayout({
       <body
         className=" inset-0 bg-cover bg-center bg-fixed bg-black"
         style={{
-          backgroundImage: "url('/background.png')",
         }}
       >
         <main className="z-10">

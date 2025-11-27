@@ -7,6 +7,7 @@ import { useAuth } from "@/firebase/useAuth";
 import { auth, db } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { useAtom } from "jotai";
+import  backgroundImage from "../../public/background.png"
 import { CalendarEvent } from "@/components/calendar/types/types";
 import { doc, onSnapshot } from "firebase/firestore";
 import { dayClickHandler, handleSaveDay } from "@/components/calendar/helpers";
@@ -82,6 +83,13 @@ export default function Home() {
   };
   return (
     <>
+      <Image
+        src={backgroundImage}
+        alt="background"
+        fill
+        className="object-cover object-center fixed -z-10 opacity-90"
+        placeholder="blur"
+      />
       <h1 className="text-center z-50 p-2 m-5 text-4xl font-bold text-gray-300 ">
         Mentis Planor
       </h1>
