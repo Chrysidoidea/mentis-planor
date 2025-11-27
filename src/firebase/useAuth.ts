@@ -12,9 +12,13 @@ export type AuthUser = FirebaseUser | null;
 
 export function useAuth() {
   const [user, setUser] = useState<AuthUser>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u as FirebaseUser | null));
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u as FirebaseUser | null);
+      setLoading(false);
+    });
     return unsubscribe;
   }, []);
 
@@ -26,5 +30,5 @@ export function useAuth() {
 
   const logout = () => signOut(auth);
 
-  return { user, login, register, logout };
+  return { user, login, register, logout, loading };
 }

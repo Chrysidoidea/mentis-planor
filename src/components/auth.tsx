@@ -50,7 +50,6 @@ export const Authenticator = () => {
         <h2 className="text-center font-bold text-xl mb-2">
           {isRegister ? "Register" : "Login"}
         </h2>
-
         <Image
           src={userImage}
           width={150}

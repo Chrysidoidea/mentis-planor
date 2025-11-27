@@ -7,7 +7,7 @@ import { useAuth } from "@/firebase/useAuth";
 import { auth, db } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { useAtom } from "jotai";
-import  backgroundImage from "../../public/background.png"
+import backgroundImage from "../../public/background.png";
 import { CalendarEvent } from "@/components/calendar/types/types";
 import { doc, onSnapshot } from "firebase/firestore";
 import { dayClickHandler, handleSaveDay } from "@/components/calendar/helpers";
@@ -21,6 +21,7 @@ import {
 import Calendar from "@/components/calendar/calendar";
 import CursorGlow from "@/effects/glowCursorEffect";
 import Modal from "@/components/calendar/modal";
+import Spinner from "@/components/loader";
 import Image from "next/image";
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
   const [data, setData] = useAtom(dataAtom);
   const [, setAnimationTriggered] = useAtom(animationTriggeredAtom);
 
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth());
@@ -93,6 +94,7 @@ export default function Home() {
       <h1 className="text-center z-50 p-2 m-5 text-4xl font-bold text-gray-300 ">
         Mentis Planor
       </h1>
+
       {user ? (
         <button
           onClick={handleLogout}
@@ -125,7 +127,13 @@ export default function Home() {
       )}
       <div className="grid content-center text-white z-20 rounded-xs text-center">
         <CursorGlow />
-        {user ? <Calendar month={month} year={year} /> : <Authenticator />}
+      {loading ? (
+          <Spinner />
+        ) : user ? (
+          <Calendar month={month} year={year} />
+        ) : (
+          <Authenticator />
+        )}
       </div>
       {selectedDay !== null && (
         <Modal
