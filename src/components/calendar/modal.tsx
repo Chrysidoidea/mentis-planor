@@ -120,7 +120,7 @@ const Modal = ({
       {sessions.map((s, i) => (
         <div
           key={i}
-          className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-700/5 transition-all duration-200 ease-in-out"
+          className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-900/30 transition-all duration-200 ease-in-out"
         >
           <div className="flex items-center gap-2 flex-col md:flex-row">
             <button
