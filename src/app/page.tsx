@@ -23,6 +23,8 @@ import CursorGlow from "@/effects/glowCursorEffect";
 import Modal from "@/components/calendar/modal";
 import Spinner from "@/components/loader";
 import Image from "next/image";
+import PrevIcon from "@/assets/icons/prev";
+import NextIcon from "@/assets/icons/next";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useAtom(selectDayAtom);
@@ -109,7 +111,7 @@ export default function Home() {
             onClick={() => handleMonthSwitch("prev")}
             className="hover:scale-110 transition-all duration-200 ease-in-out  cursor-pointer"
           >
-            <Image src="/backSvg.svg" alt="record" height={45} width={45} />
+            <PrevIcon/>
           </button>
 
           <span className="text-2xl font-bold text-center text-gray-300 pb-8">
@@ -121,7 +123,7 @@ export default function Home() {
             className="hover:scale-110 transition-all duration-200 ease-in-out  cursor-pointer"
           >
             {" "}
-            <Image src="/nextSvg.svg" alt="record" height={45} width={45} />
+            <NextIcon/>
           </button>
         </section>
       )}

@@ -2,7 +2,12 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { TimeBlock, CalendarEvent } from "@/components/calendar/types/types";
-import Image from "next/image";
+import StartIcon from "@/assets/icons/start";
+import StopIcon from "@/assets/icons/stop";
+import RemoveIcon from "@/assets/icons/remove";
+import AddRowIcon from "@/assets/icons/addRow";
+import SaveRowIcon from "@/assets/icons/saveRow";
+import CloseIcon from "@/assets/icons/close";
 
 import { calculateDuration } from "@/components/calendar/helpers";
 
@@ -124,7 +129,7 @@ const Modal = ({
               }}
               className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
             >
-              <Image src="/playSvg.svg" alt="start" height={25} width={25} />
+              <StartIcon/>
             </button>
             <input
               type="text"
@@ -141,7 +146,7 @@ const Modal = ({
               }}
               className=" cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
             >
-              <Image src="/stopSvg.svg" alt="stop" height={25} width={25} />
+              <StopIcon/>
             </button>
             <input
               type="text"
@@ -159,7 +164,7 @@ const Modal = ({
               onClick={() => removeSession(i)}
               className="ml-2 text-red-400 transition-all duration-180ease-in-out cursor-pointer hover:scale-110 active:scale-95 text-sm"
             >
-              <Image src="/removeSvg.svg" alt="remove" height={25} width={25} />
+              <RemoveIcon/>
             </button>
           </div>
 
@@ -179,19 +184,20 @@ const Modal = ({
           onClick={addSession}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400/50 hover:scale-110 active:scale-95"
         >
-          <Image src="/addRowSvg.svg" alt="addRow" height={45} width={45} />
+          <AddRowIcon/>
+
         </button>
         <button
           onClick={() => onSave(day, sessions)}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600/50 hover:scale-110 active:scale-95"
         >
-          <Image src="/saveSvg.svg" alt="save" height={25} width={25} />
+          <SaveRowIcon/>
         </button>
         <button
           onClick={onClose}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600/20 hover:scale-120 active:scale-95"
         >
-          <Image src="/closeSvg.svg" alt="close" height={25} width={25} />
+          <CloseIcon/>
         </button>
       </div>
     </div>
