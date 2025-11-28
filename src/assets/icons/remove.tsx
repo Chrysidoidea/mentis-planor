@@ -10,21 +10,21 @@ const RemoveIcon = () => {
     >
       <defs>
         <linearGradient
-          id="gradient1"
+          id="removeGradient"
           x1="5"
           x2="5"
           y2="25.4395"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#ff6887" stop-opacity="1" />
-          <stop offset="1" stop-color="#ff375f" stop-opacity="1" />
+          <stop offset="0" stopColor="#ff6887" stopOpacity="1" />
+          <stop offset="1" stopColor="#ff375f" stopOpacity="1" />
         </linearGradient>
       </defs>
       <g>
         <rect height="25.459" opacity="0" width="25.8008" x="0" y="0" />
         <path
           d="M25.4395 12.7246C25.4395 19.7266 19.7266 25.4395 12.7148 25.4395C5.71289 25.4395 0 19.7266 0 12.7246C0 5.71289 5.71289 0 12.7148 0C19.7266 0 25.4395 5.71289 25.4395 12.7246ZM7.44141 11.8066C6.80664 11.8066 6.39648 12.1582 6.39648 12.7539C6.39648 13.3301 6.82617 13.6719 7.44141 13.6719L17.998 13.6719C18.6133 13.6719 19.043 13.3301 19.043 12.7539C19.043 12.1582 18.6426 11.8066 17.998 11.8066Z"
-          fill="url(#gradient1)"
+          fill="url(#removeGradient)"
         />
       </g>
     </svg>
