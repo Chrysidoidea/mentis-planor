@@ -44,13 +44,18 @@ export const handleSaveDay = async ({
   setIsClosing,
   setSelectedDay,
   setIsOpening,
-}: HandleSaveDayProps): Promise<void> => {
+  year,
+  month,
+}: HandleSaveDayProps) => {
   if (!user) return;
 
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth();
-
-  const ref = doc(db, "calendar_events", user.uid, `${year}_${month}`, "data");
+  const ref = doc(
+    db,
+    "calendar_events",
+    user.uid,
+    `${year}_${month}`,
+    "data"
+  );
 
   const updated = { ...data, [day]: { sessions } };
   setData(updated);

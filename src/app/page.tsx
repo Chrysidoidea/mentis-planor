@@ -162,6 +162,8 @@ export default function Home() {
               setIsClosing,
               setSelectedDay,
               setIsOpening,
+              year,
+              month,
             })
           }
           existing={data[selectedDay]}

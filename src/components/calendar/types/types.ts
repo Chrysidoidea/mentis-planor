@@ -20,4 +20,6 @@ export interface HandleSaveDayProps {
   setIsClosing: (b: boolean) => void;
   setSelectedDay: (n: number | null) => void;
   setIsOpening: (b: boolean) => void;
+  year: number;
+  month: number;
 }
