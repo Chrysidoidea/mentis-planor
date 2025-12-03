@@ -100,7 +100,7 @@ export default function Home() {
       {user ? (
         <button
           onClick={handleLogout}
-          className="fixed right-4 text-xs cursor-pointer text-gray-400 mt-0 md:mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
+          className="absolute right-4 text-xs cursor-pointer text-gray-400 mt-0 md:mt-3 hover:text-red-400 self-end mr-4 transition-all duration-200 ease-in-out "
         >
           Log out
         </button>
