@@ -118,54 +118,59 @@ const Modal = ({
       </span>
 
       {sessions.map((s, i) => (
-        <div
+        <section
           key={i}
           className="flex flex-col gap-2 bg-gray-900/10 p-3 rounded-xl mb-4 w-full hover:bg-gray-900/30 transition-all duration-200 ease-in-out"
         >
           <div className="flex items-center gap-2 flex-col md:flex-row">
-            <button
-              onClick={() => {
-                setCurrentTime(i, "start");
-              }}
-              className="text-lime-400 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
-            >
-              <StartIcon/>
-            </button>
-            <input
-              type="text"
-              placeholder="Start (HH:MM)"
-              value={s.start}
-              onChange={(e) => updateSession(i, "start", e.target.value)}
-              className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+            <div className="flex items-center">
+              <button
+                onClick={() => {
+                  setCurrentTime(i, "start");
+                }}
+                className="text-lime-400 pr-2 cursor-pointer hover:text-lime-100 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+              >
+                <StartIcon />
+              </button>
+              <input
+                type="text"
+                placeholder="Start (HH:MM)"
+                value={s.start}
+                onChange={(e) => updateSession(i, "start", e.target.value)}
+                className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs h-8 md:text-sm
               "
-            />
-            <button
-              onClick={() => {
-                setCurrentTime(i, "end");
-              }}
-              className=" cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
-            >
-              <StopIcon/>
-            </button>
-            <input
-              type="text"
-              placeholder="End (HH:MM)"
-              value={s.end}
-              onChange={(e) => updateSession(i, "end", e.target.value)}
-              className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
+              />
+            </div>
+            <div className="flex items-center">
+              <button
+                onClick={() => {
+                  setCurrentTime(i, "end");
+                }}
+                className=" cursor-pointer pr-2 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+              >
+                <StopIcon />
+              </button>
+              <input
+                type="text"
+                placeholder="End (HH:MM)"
+                value={s.end}
+                onChange={(e) => updateSession(i, "end", e.target.value)}
+                className="placeholder:text-center rounded-md w-30 px-1 text-gray-200 appearance-none focus:outline-none focus:ring-0 border-none bg-transparent
               text-xs md:text-sm"
-            />
-
-            <span className="text-gray-200 text-sm w-20 text-center">
-              {s.total || "total"}
-            </span>
-            <button
-              onClick={() => removeSession(i)}
-              className="ml-2 text-red-400 transition-all duration-180ease-in-out cursor-pointer hover:scale-110 active:scale-95 text-sm"
-            >
-              <RemoveIcon/>
-            </button>
+              />
+            </div>
+            <div className="flex items-center">
+              <span className="text-gray-200 text-sm w-20 text-center">
+                {s.total || "total"}
+              </span>
+              <button
+                onClick={() => removeSession(i)}
+                className="ml-2 text-red-400 transition-all duration-180ease-in-out cursor-pointer hover:scale-110 active:scale-95 text-sm"
+              >
+                <RemoveIcon />
+              </button>
+            </div>
           </div>
 
           <textarea
@@ -176,7 +181,7 @@ const Modal = ({
             text-xs h-8 md:text-sm
             focus:outline-none focus:ring-0 border-none"
           />
-        </div>
+        </section>
       ))}
 
       <div className="flex gap-3 mt-2 md:mt-4 text-xs md:text-2xl">
@@ -184,20 +189,19 @@ const Modal = ({
           onClick={addSession}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-400/50 hover:scale-110 active:scale-95"
         >
-          <AddRowIcon/>
-
+          <AddRowIcon />
         </button>
         <button
           onClick={() => onSave(day, sessions)}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-green-600/50 hover:scale-110 active:scale-95"
         >
-          <SaveRowIcon/>
+          <SaveRowIcon />
         </button>
         <button
           onClick={onClose}
           className="px-2 py-2 md:px-4 bg-transparent rounded-xl cursor-pointer transition-all duration-180 ease-in-out hover:bg-gray-600/20 hover:scale-120 active:scale-95"
         >
-          <CloseIcon/>
+          <CloseIcon />
         </button>
       </div>
     </div>
